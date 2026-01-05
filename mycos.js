@@ -31,7 +31,6 @@
     if (!window.location.href.includes(config.reviewHref)) return;
 
     // 1. 处理单选：只寻找【尚未选中】任何选项的题目组
-    // 通过检查内部是否有 .ant-radio-wrapper-checked 类来判断
     const unfilledRadioGroups = $(".ant-radio-group").filter((i, el) => {
       return $(el).find(".ant-radio-wrapper-checked, .ant-radio-checked").length === 0;
     });
@@ -62,11 +61,8 @@
     });
   };
 
-  // 使用 MutationObserver 实时监听页面变化
-  // 这样无论是切换老师、滚动加载、还是初始进入，只要有新表单出现，都会触发 doFill
   let throttleTimer = null;
   const observer = new MutationObserver(() => {
-    // 节流处理：防止 DOM 变动太频繁导致填充函数被超高频触发
     if (throttleTimer) return;
     throttleTimer = setTimeout(() => {
       doFill();
@@ -82,5 +78,6 @@
 
   // 初始进入页面执行一次
   $(doFill);
+
 
 })(jQuery);
